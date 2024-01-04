@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+
+<script>
+function toggle(i,j) {
+      b=document.getElementById("but_" + i + j);
+      t = b.innerHTML;
+      if (t=="X") {b.innerHTML = "O";
+                   b.setAttribute("style", "color:green; background-color:white");
+                  }
+      if (t=="O") {b.innerHTML = "X";
+                   b.setAttribute("style", "color:white; background-color:black");
+                  }
+}
+
+// Please complete this function
+function press(i,j) {
+	toggle(i,j);
+	// toggle above, below, left and right
+	if (i - 1 >= 0)	{toggle(i - 1, j);
+					}
+	if (i + 1 < 5)	{toggle(i + 1, j);
+					}
+	if (j - 1 >= 0)	{toggle(i, j - 1);
+					}
+	if (j + 1 < 5)	{toggle(i, j + 1);
+					}
+	checkAllOff();
+}
+
+// Please complete this function
+function checkAllOff(){ 
+
+	var done = 1;
+	// check all buttons. if it is O set done to 0
+	for (var i = 0; i < 5; i++) {
+        for (var j = 0; j < 5; j++) {
+			b = document.getElementById("but_" + i + j)
+            if (b.innerHTML=="O") {done = 0;
+								  }
+        }
+    }
+	if (done == 1) { e = document.getElementById("end");
+		e.innerHTML = "Congratulations! All lights out!";
+	}
+	else{e = document.getElementById("end");
+		e.innerHTML = "";
+	}
+}
+
+
+// Please complete this function
+function resetGrid(){
+	// set all buttons to O
+	for (var i = 0; i < 5; i++) {
+        for (var j = 0; j < 5; j++) {
+			b = document.getElementById("but_" + i + j)
+            if (b.innerHTML=="X") {b.innerHTML = "O";
+				b.setAttribute("style", "color:green; background-color:white");
+			}
+        }
+    }
+    toggle(2,2) // initial state
+	// remove Congratulation message
+	e = document.getElementById("end");
+	e.innerHTML = "";
+}
+
+// 
+function generateGrid() {
+        var d = document.getElementById("button-grid");
+        var table = document.createElement("table");
+        d.appendChild(table);
+        for (var i = 0; i < 5; i++) {
+                var row = document.createElement("tr");
+                for (var j = 0; j < 5; j++) {
+                        var cell = document.createElement("td");
+                        cell.innerHTML = "<button type=button id=but_" + i + j +
+                                         " onclick=\"press(" +i + ',' +j + ")\"" + 
+                                         " style=\"color:green; background-color:white\"" +
+                                         ">O</button>" ;
+                        row.appendChild(cell);
+                }
+                table.appendChild(row);
+        }
+        toggle(2,2) // initial state
+}
+
+window.onload = function() {
+        generateGrid();
+};
+
+</script> 
+
+<title>Lights Off Puzzle</title>
+</head> 
+
+<body>
+<h1>5x5 Lights off Puzzle</h1>
+<p>Click on buttons until they all turn black. When a button is pressed, the buttons above, below, left and right of the button pressed are also toggled. </p>
+<div id="button-grid"></div>
+<h2 id="end" style="color:green"></h2>
+<div id="resetbutton">
+<button type="button" id="reset" onclick=resetGrid()>Reset</button>
+</div>
+
+
+</body>
+
+</html>
